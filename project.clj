@@ -1,16 +1,3 @@
-;; NOTE:
-;;
-;; cups4j must be copied inside the directory ./resources,
-;; then it needs to be installed in make_repository:
-;; 
-;; mkdir maven_repository
-;; mvn install:install-file -Dfile=resources/cups4j.runnable-0.6.4.jar -DartifactId=cups4j -Dversion=0.6.4 -DgroupId=local -Dpackaging=jar -DlocalRepositoryPath=maven_repository -DcreateChecksum=true
-
-
-
-(defn directory [pathname]
-  (map str (.listFiles (clojure.java.io/file pathname))))
-
 (defproject gcpc "0.1.0-SNAPSHOT"
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
