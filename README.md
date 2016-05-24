@@ -1,14 +1,30 @@
 # gcpc
 
-FIXME: description
+GCPC is a Google Cloud Print Connector.  That is, it is the piece of
+software that interfaces your CUPS printers to the GCP, thus allowing
+you to print from your Android devices anywhere you are.
+
+Currently only the 1.0 version of the protocol is supported.
 
 ## Installation
 
-Download cups4j.  cups4j must be copied to the directory
-./resources, then it needs to be installed in the maven_repository:
+Download the source code:
+
+    $ git clone https://github.com/fourtytoo/gcpc.git
+
+Download
+[cups4j](http://www.cups4j.org/index.php?option=com_content&view=article&id=2&Itemid=7)
+from its web page.  cups4j must be copied to the directory
+./resources:
+
+    $ mkdir resources
+	$ fetch http://www.cups4j.org/...
+    $ mv cups4j-<VERSION>.jar to resources
+
+then it needs to be installed in the maven_repository:
 
     $ mkdir maven_repository
-    $ mvn install:install-file -Dfile=resources/cups4j-0.6.4.jar -DartifactId=cups4j -Dversion=0.6.4 -DgroupId=local -Dpackaging=jar -DlocalRepositoryPath=maven_repository -DcreateChecksum=true
+    $ mvn install:install-file -Dfile=resources/cups4j-<VERSION>.jar -DartifactId=cups4j -Dversion=<VERSION> -DgroupId=local -Dpackaging=jar -DlocalRepositoryPath=maven_repository -DcreateChecksum=true
 
 Then you should be able to compile as usual:
 
@@ -22,7 +38,10 @@ The jar file can be run:
 
 you should get a usage explanation.
 
-FIXME: more to come
+With the first printer you configure you are asked a confirmation
+through the visit of a web page.  A set of connection parameters are
+thus obtained from the Google server and saved in the file `.gcpc` in
+your home directory.
 
 ## Options
 
@@ -32,17 +51,9 @@ FIXME: listing of options this app accepts.
 
 ...
 
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
 ## License
 
-Copyright © 2016 FIXME
+Copyright © 2016 Walter C. Pelissero <walter@pelissero.de>
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
