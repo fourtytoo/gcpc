@@ -74,16 +74,6 @@
       (clojure.data.zip.xml/xml1-> :iq (clojure.data.zip.xml/attr= :type "result") clojure.zip/node)
       :attrs))
 
-#_(with-in-str "<iq type=\"result\" foo=\"bar\"><a></a><b></b></iq>"
-  (-> *in*
-      clojure.data.xml/source-seq
-      xml/xml-elements
-      doall
-      ffirst
-      doall
-      iq-result-from-stanza
-      doall))
-
 (defn- auth-methods-from-stanza [stanza]
   (-> stanza
       clojure.zip/xml-zip
