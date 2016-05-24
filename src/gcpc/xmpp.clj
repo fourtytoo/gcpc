@@ -10,6 +10,9 @@
             [clojure.xml]
             [clojure.data.xml :as dxml]))
 
+(def ^:dynamic *xmpp-server* "talk.google.com")
+(def ^:dynamic *xmpp-port* 5223)
+
 (defn- make-dummy-trust-manager []
   (proxy [javax.net.ssl.X509TrustManager][]
     (getAcceptedIssuers []
@@ -108,7 +111,7 @@
   (let [auth (-> (str "\000" jid "\000" token)
                  b64-encode)
         in (async/chan)
-        socket (ssl/socket ssl-context-factory "talk.google.com" 5223)
+        socket (ssl/socket ssl-context-factory *xmpp-server* *xmpp-port*)
         out (.getOutputStream socket)]
     (async/thread (socket-reader socket in))
     (socket-write out "<stream:stream to=\"gmail.com\" xml:lang=\"en\" version=\"1.0\" xmlns:stream=\"http://etherx.jabber.org/streams\" xmlns=\"jabber:client\">\n")
