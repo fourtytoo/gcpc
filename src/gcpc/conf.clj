@@ -15,13 +15,13 @@
   (.exists (io/file file)))
 
 (defn load-configuration-parms []
-  (if (file-exists? (configuration-file))
-    (joda/with-joda-time-reader
-      (with-open [stream (java.io.PushbackReader. (io/reader (configuration-file)))]
-        (merge (edn/read stream)
-               {:expiration (ref nil)
-                :access-token (ref nil)})))
-    {}))
+  (merge {:expiration (ref nil)
+          :access-token (ref nil)}
+   (if (file-exists? (configuration-file))
+     (joda/with-joda-time-reader
+       (with-open [stream (java.io.PushbackReader. (io/reader (configuration-file)))]
+          (edn/read stream)))
+     {})))
 
 (defn save-configuration-parms [parms]
   (with-open [out (io/writer (configuration-file))]
