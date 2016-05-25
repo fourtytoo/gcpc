@@ -146,14 +146,6 @@
   (->> (list-printers)
        (mapcat (comp list-jobs :id))))
 
-(defn change-job-semantic-state [job state]
-  (let [answer (gcp-req http/http-post (str print-cloud-url "control")
-                        {:form-params {:jobid (:id job)
-                                       :semantic_state_diff (json/encode state)}})]
-    (if (:success answer)
-      answer
-      (throw (ex-info (str "Cannot change job" job) answer)))))
-
 (defn change-job-state [job state]
   (let [answer (gcp-req http/http-post (str print-cloud-url "control")
                         {:form-params (merge {:jobid (:id job)}
@@ -197,3 +189,24 @@
 (defn get-job-body [job]
   (:body (http/http-get (:fileUrl job) (gcp-headers {}))))
 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; Protocol 2.0
+;;;
+
+(defn job-delete [job]
+  (let [answer (gcp-req http/http-post (str print-cloud-url "deletejob")
+                        {:form-params {:jobid (:id job)}})]
+    (if (:success answer)
+      (do (purge-dead-printers)
+          true)
+      (throw (ex-info (str "Cannot delete print job " job) (select-keys answer [:errorCode :message]))))))
+
+(defn change-job-state2 [job state]
+  (let [answer (gcp-req http/http-post (str print-cloud-url "control")
+                        {:form-params {:jobid (:id job)
+                                       :semantic_state_diff (json/encode state)}})]
+    (if (:success answer)
+      answer
+      (throw (ex-info (str "Cannot change job" job) answer)))))
