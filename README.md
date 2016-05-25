@@ -55,11 +55,11 @@ obtained from Google's server and saved locally in the file `~/.gcpc`.
 Although, this is sensitive information its loss doesn't compromise
 your Google personal account, and it can be revoked at any time.
 
-With each printer you configure you are asked to visit a confirmation
-page with your web browser.  There you may need to identify yourself
-with your personal Google account and password.  Obviously these
-credentials are not saved on your hard disk; just the robot refresh
-token is saved in the `.gcpc` file (see above).
+Also, with the first printer you configure, you are asked to visit a
+confirmation page with your web browser.  There you may need to
+identify yourself with your personal Google account and password.
+Obviously these credentials are not saved on your hard disk; just the
+robot refresh token is saved in the `.gcpc` file (see above).
 
 ## Options
 
