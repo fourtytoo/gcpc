@@ -24,8 +24,8 @@
                "grant_type" "refresh_token"
                "refresh_token" refresh-token}]
     (-> (http/http-post oauth-url {:form-params parms})
-        http/decode-json-body
         http/assert-http-success
+        http/decode-json-body
         http/assert-json-success
         :body
         ((juxt :access-token :expires-in)))))
@@ -59,8 +59,8 @@
 
 (defn gcp-req [op url req]
   (-> (op url (gcp-headers req))
-      http/decode-json-body
       http/assert-http-success
+      http/decode-json-body
       :body))
 
 (defn gcp-register [name ppd]
@@ -89,8 +89,8 @@
                "grant_type" "authorization_code"
                "code" authorization-code}]
     (-> (http/http-post oauth-url {:form-params parms})
-        http/decode-json-body
         http/assert-http-success
+        http/decode-json-body
         http/assert-json-success
         :body
         :refresh-token)))
