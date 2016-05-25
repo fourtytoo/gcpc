@@ -31,14 +31,15 @@ first printer we register save the connection parameters locally."
   [printers]
   (mapcat 
    (fn [printer]
-     (let [printer (util/parse-printer-name printer)
-           client (cups/client :host (or (:host printer) cups/*default-cups-host*)
-                               :port (or (:port printer) cups/*default-cups-port*))]
-       (if (= "*" (:name printer))
+     (let [printer' (util/parse-printer-name printer)
+           client (cups/client :host (or (:host printer') cups/*default-cups-host*)
+                               :port (or (:port printer') cups/*default-cups-port*))]
+       (if (= "*" (:name printer'))
          (map configure-printer (cups/list-printers client))
-         (-> printer
+         (-> printer'
              :name
              (cups/find-printer client)
+             (or (throw (java.lang.Exception. (str "printer " printer " not found"))))
              configure-printer
              list))))
    printers))
