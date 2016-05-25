@@ -51,6 +51,13 @@ FIXME: listing of options this app accepts.
 
 ...
 
+## Bugs
+
+GCPC is still in its early development stages.  Bugs are to be
+expected aplenty, and any error on your side will be met with an
+unintelligible stacktrace.  Have fun hacking Clojure code!
+
+
 ## License
 
 Copyright © 2016 Walter C. Pelissero <walter@pelissero.de>
