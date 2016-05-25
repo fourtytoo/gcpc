@@ -47,11 +47,8 @@
     http-response
     (throw (ex-info "HTTP request failed" http-response))))
 
-(defn assert-json-success [http-response]
-  (let [body (:body http-response)]
-    (if (and (map? body)
-             (get body :success true))
-      http-response
-      (throw (ex-info "JSON error" http-response)))))
-
-
+(defn assert-json-success [body]
+  (if (and (map? body)
+           (get body :success true))
+    body
+    (throw (ex-info "JSON error" body))))
