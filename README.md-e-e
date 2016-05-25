@@ -38,10 +38,28 @@ The jar file can be run:
 
 you should get a usage explanation.
 
-With the first printer you configure you are asked a confirmation
-through the visit of a web page.  A set of connection parameters are
-thus obtained from the Google server and saved in the file `.gcpc` in
-your home directory.
+Before you do anything else you need to add at least a printer to the
+cloud.
+
+### Adding a printer
+
+    $ java -jar gcpc-0.1.0-standalone.jar add <printer>
+
+`<printer>` is the name of the printer on the local host.  If the
+printer is on another CUPS host, you can use the form `printer@host`,
+or even `printer@host:port`if your cups server is not listening
+to port 631.
+
+With the first printer you configure a set of access credentials are
+obtained from Google's server and saved locally in the file `~/.gcpc`.
+Although, this is sensitive information its loss doesn't compromise
+your Google personal account, and it can be revoked at any time.
+
+With each printer you configure you are asked to visit a confirmation
+page with your web browser.  There you may need to identify yourself
+with your personal Google account and password.  Obviously these
+credentials are not saved on your hard disk; just the robot refresh
+token is saved in the `.gcpc` file (see above).
 
 ## Options
 
