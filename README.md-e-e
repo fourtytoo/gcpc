@@ -6,6 +6,9 @@ you to print from your Android devices anywhere you are.
 
 Currently only the 1.0 version of the protocol is supported.
 
+_WARNING_ this is still unstable/incomplete code; please see the BUGS
+section below.
+
 ## Installation
 
 Download the source code:
@@ -72,7 +75,7 @@ FIXME: listing of options this app accepts.
 ## Bugs
 
 GCPC is still in its early development stages.  Bugs are to be
-expected aplenty, and any error on your side will be met with an
+expected aplenty, and most mistakes on your side will be met with an
 unintelligible stacktrace.  Have fun hacking Clojure code!
 
 
