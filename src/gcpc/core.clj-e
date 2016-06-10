@@ -14,13 +14,14 @@ first printer we register save the connection parameters locally."
   [printer]
   (println "adding" (cups/printer-url printer))
   (let [[id reg] (gcp/register-printer (cups/printer-name printer) (cups/printer-ppd printer))
-        conf {id {:name (cups/printer-name printer)
+        conf {id {:id id
+                  :name (cups/printer-name printer)
                   ;; :host (cups/printer-host printer)
                   :url (str (cups/printer-url printer))}}]
     (cfg/save-configuration-parms
-     (merge (cfg/configuration-parms)
-            {:printers conf}
-            reg))
+     (util/merge-deep (cfg/configuration-parms)
+                      {:printers conf}
+                      reg))
     conf))
 
 (defn configure-printers
