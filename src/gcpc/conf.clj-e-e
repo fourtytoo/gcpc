@@ -8,8 +8,13 @@
 (defn home-directory []
   (System/getProperty "user.home"))
 
-(def configuration-file
-  (memoize #(io/file (str (home-directory) "/.gcpc"))))
+(def ^:dynamic *configuration-file*
+  "Pathname of the configuration file.  If nil, it defaults to ~/.gcpc"
+  nil)
+
+(defn configuration-file []
+  (io/file (or *configuration-file*
+               (str (home-directory) "/.gcpc"))))
 
 (defn file-exists? [file]
   (.exists (io/file file)))

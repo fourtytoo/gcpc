@@ -95,7 +95,8 @@ first printer we register save the connection parameters locally."
     :id :verbosity
     :default 0
     :assoc-fn (fn [m k _] (update-in m [k] inc))]
-   ["-h" "--help"]])
+   ["-c" "--config FILE" "Configuration file instead of ~/.gcpc"]
+   ["-h" "--help" "This usage screen"]])
 
 (defn usage [options-summary]
   (->> ["Google Cloud Print Proxy."
@@ -140,17 +141,25 @@ configure/delete local CUPS printers check the cups(1) manual page. "]
     ;; Handle help and error conditions
     (cond
       (:help options) (exit 0 (usage summary))
-      (< (count arguments) 1) (exit 1 (usage summary))
-      errors (exit 1 (error-msg errors)))
+      (< (count arguments) 1) (exit 1 (str "Too few arguments\n"
+                                           (usage summary)))
+      errors (exit 2 (str "Command line parsing error\n"
+                          (error-msg errors))))
     ;; Execute program with options
-    (case (first arguments)
-      "add" (let [l (configure-printers (rest arguments))]
-              (run! println l)
-              (println "added" (count l) "printers"))
-      ("start" "serve") (srv/serve-print-jobs)
-      ("printers" "list-printers") (list-printers (rest arguments))
-      ("rm" "remove-job") (remove-jobs (rest arguments))
-      ("remove-printer") (remove-printers (rest arguments))
-      ("jobs" "list-jobs") (list-jobs)
-      (exit 1 (usage summary)))))
+    (binding [cfg/*configuration-file* (:config options)]
+      (case (first arguments)
+        "add" (let [l (configure-printers (rest arguments))]
+                (run! println l)
+                (println "added" (count l) "printers"))
+        ("start" "serve") (srv/serve-print-jobs)
+        ("printers" "list-printers") (list-printers (rest arguments))
+        ("rm" "remove-job") (remove-jobs (rest arguments))
+        ("remove-printer") (remove-printers (rest arguments))
+        ("jobs" "list-jobs") (list-jobs)
+        (exit 3 (str "Unknown action " (first arguments) "\n"
+                     (usage summary)))))))
 
+#_(binding [cfg/*configuration-file* "/home/wcp/fatcat/.gcpc"]
+    (srv/serve-print-jobs))
+
+#_(srv/serve-print-jobs)
