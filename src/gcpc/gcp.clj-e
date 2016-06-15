@@ -41,8 +41,8 @@
          exp (deref (:expiration conf))
          rtok (:refresh-token conf)]
      (when (and rtok
-                (not (and atok exp
-                          (time/before? exp (time/now)))))
+                (or (not exp)
+                    (time/before? exp (time/now))))
        (let [[atok' expin] (fetch-access-token rtok)]
          (ref-set (:access-token conf) atok')
          (ref-set (:expiration conf) (-> expin time/seconds time/from-now)))))
