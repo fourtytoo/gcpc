@@ -190,7 +190,8 @@
     (if (:success answer)
       (do (purge-dead-printers)
           true)
-      (throw (ex-info (str "Cannot delete printer " id) (select-keys answer [:errorCode :message]))))))
+      (throw (ex-info (str "Cannot delete printer " id)
+                      (select-keys answer [:errorCode :message]))))))
 
 (defn delete-all-printers []
   (run! (comp delete-printer :id) (list-printers)))
@@ -202,7 +203,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; Protocol 2.0
+;;; Client OPs
 ;;;
 
 (defn job-delete [job]
