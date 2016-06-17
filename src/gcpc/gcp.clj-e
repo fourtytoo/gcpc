@@ -208,10 +208,10 @@
 (defn job-delete [job]
   (let [answer (gcp-req http/http-post (print-cloud-url "deletejob")
                         {:form-params {:jobid (:id job)}})]
-    (if (:success answer)
-      (do (purge-dead-printers)
-          true)
-      (throw (ex-info (str "Cannot delete print job " job) (select-keys answer [:errorCode :message]))))))
+    (when-not (:success answer)
+      (throw (ex-info (str "Cannot delete print job " job)
+                      (select-keys answer [:errorCode :message]))))))
+
 
 (defn change-job-state2 [job state]
   (let [answer (gcp-req http/http-post (print-cloud-url "control")
