@@ -57,12 +57,14 @@
 (defn add-gcp-headers
   "Add headers common to all GCP requests."
   [req]
-  (update req :headers assoc "X-CloudPrint-Proxy" "gcpc"))
+  (let [req (update req :headers assoc "X-CloudPrint-Proxy" "gcpc")
+        atok (access-token)]
+    (if atok
+      (assoc req :oauth-token atok)
+      req)))
 
 (defn gcp-req* [op url req]
-  (-> (op url (add-gcp-headers (if-let [atok (access-token)]
-                                 (assoc req :oauth-token atok)
-                                 req)))
+  (-> (op url (add-gcp-headers req))
       http/assert-http-success
       http/decode-json-body
       :body))
