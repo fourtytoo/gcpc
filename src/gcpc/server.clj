@@ -3,7 +3,8 @@
             [gcpc.gcp :as gcp]
             [gcpc.conf :as cfg]
             [gcpc.xmpp :as xmpp]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [gcpc.util :as util]))
 
 (defn print-job [job]
   (let [url (-> job :printerid cfg/find-printer :url)
@@ -27,7 +28,12 @@
   (run! print-job (gcp/list-all-jobs)))
 
 (defn serve-print-jobs []
-  (print-all-jobs)
-  (let [[input-channel socket] (xmpp/connect (:xmpp-jid (cfg/configuration-parms)) (gcp/access-token))]
-    (process-print-job-notifications input-channel)))
-
+  (loop []
+    (print-all-jobs)
+    (let [[input-channel socket] (xmpp/connect (:xmpp-jid (cfg/configuration-parms)) (gcp/access-token))]
+      (try
+        (process-print-job-notifications input-channel)
+        (catch java.lang.Exception e
+          (log/warn "caught exception" e "while serving job notifications"))))
+    (util/sleep 3)
+    (recur)))
