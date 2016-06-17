@@ -196,7 +196,7 @@
   (run! (comp delete-printer :id) (list-printers)))
 
 (defn get-job-body [job]
-  (-> (http/http-get (:fileUrl job) (add-gcp-headers {}))
+  (-> (http/http-get (:fileUrl job) (add-gcp-headers {:oauth-token (access-token)}))
       http/assert-http-success
       :body))
 
