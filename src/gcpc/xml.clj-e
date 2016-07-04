@@ -1,6 +1,7 @@
 (ns gcpc.xml
   (:require [clojure.java.io :as io]
-            [clojure.data.xml :as dxml])
+            [clojure.data.xml :as dxml]
+            [clojure.tools.logging :as log])
   (:import (javax.xml.stream XMLInputFactory
                              XMLStreamReader
                              XMLStreamConstants)))
@@ -9,6 +10,7 @@
   (dxml/seq-tree
    (fn [^clojure.data.xml.Event event contents]
      (when (= :start-element (.type event))
+       (log/debug event)
        (clojure.data.xml.Element. (.name event) (.attrs event) contents)))
    (fn [^clojure.data.xml.Event event]
      (= :end-element (.type event)))
