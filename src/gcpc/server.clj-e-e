@@ -33,6 +33,8 @@
     (let [[input-channel socket] (xmpp/connect (:xmpp-jid (cfg/configuration-parms)) (gcp/access-token))]
       (try
         (process-print-job-notifications input-channel)
+        (catch javax.xml.stream.XMLStreamException e
+          (log/warn "XML error" e "while serving job notifications"))
         (catch java.lang.Exception e
           (log/warn "caught exception" e "while serving job notifications"))))
     (util/sleep 3)
