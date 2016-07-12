@@ -14,6 +14,7 @@
                  [local/cups4j "0.6.4"]
                  ;; necessary for cups4j
                  [org.apache.httpcomponents/httpclient "4.0.1"]
+                 [org.apache.httpcomponents/httpcore "4.0.1"]
                  #_[xmpp-clj "0.3.1"]
                  [less-awful-ssl "1.0.1"]
                  [org.clojure/data.xml "0.0.8"]
@@ -23,7 +24,7 @@
                  [ch.qos.logback/logback-classic "1.1.3"]
                  [org.clojure/core.async "0.2.374"]
                  [org.clojure/tools.cli "0.3.5"]]
-  :resource-paths ["resources/cups4j.runnable-0.6.4.jar"]
+  :resource-paths ["resources/cups4j-0.6.4.jar"]
   :repositories {"local" ~(str (.toURI (java.io.File. "maven_repository")))}
   :main ^:skip-aot gcpc.core
   :target-path "target/%s"
