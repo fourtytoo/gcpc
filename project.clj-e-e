@@ -5,17 +5,13 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [cheshire "5.5.0"]
-                 #_[clj-http-lite "0.3.0"]
                  [http-kit "2.1.18"]
-                 #_[clj-http "3.0.1"]
                  [clj-time "0.11.0"]
-                 #_[danlentz/clj-uuid "0.1.6"]
                  ;; see below
                  [local/cups4j "0.6.4"]
                  ;; necessary for cups4j
                  [org.apache.httpcomponents/httpclient "4.0.1"]
                  [org.apache.httpcomponents/httpcore "4.0.1"]
-                 #_[xmpp-clj "0.3.1"]
                  [less-awful-ssl "1.0.1"]
                  [org.clojure/data.xml "0.0.8"]
                  [org.clojure/data.zip "0.1.2"]
