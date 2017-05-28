@@ -52,8 +52,12 @@
     (doseq [e (first (xml/socket-xml-element-seq socket #(= :stream (.name %))))]
       (async/>! c e))))
 
+(def ^:dynamic *read-timeout*
+  "Timeout in milliseconds while reading a stanza."
+  (* 20 1000))
+
 (defn read-stanza [c]
-  (let [[stanza chan] (async/alts!! [c (async/timeout (* 10 1000))])]
+  (let [[stanza chan] (async/alts!! [c (async/timeout *read-timeout*)])]
     (when (= c chan)
       stanza)))
 
@@ -143,9 +147,17 @@
       (clojure.data.zip.xml/xml1-> :message :push :data clojure.data.zip.xml/text)
       b64-decode))
 
-(defn notification-seq [in]
+(defn ping [connection]
+  (let [out (-> connection :socket .getOutputStream)
+        in (:chan connection)]
+    (socket-write out "<iq id='s2c1' type='get'> <ping xmlns='urn:xmpp:ping'/> </iq>")
+    (read-stanza in)))
+
+(defn notification-seq [connection]
   (remove nil?
           (repeatedly
            (fn []
-             (when-let [stanza (read-stanza in)]
-               (push-notification-from-stanza stanza))))))
+             (if-let [stanza (read-stanza (:chan connection))]
+               (push-notification-from-stanza stanza)
+               (do (ping connection)
+                   nil))))))
