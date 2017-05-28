@@ -123,10 +123,10 @@ to localhost, or with the syntax name@host.  You can also specify the
 port number of the remote CUPS server (usually 631) after a colon like
 name@host:631.
 
-Print jobs already handed over to CUPS servers cannot be deleted by
-this program; refer to lprm(1) or cups(1) manual.
+Print jobs already handed over to CUPS servers can be deleted as usual
+by lprm(1).  See also the cups(1) manual.
 
-This pogram configures/deletes only cloud printers.  To
+This program configures/deletes only cloud printers.  To
 configure/delete local CUPS printers check the cups(1) manual page. "]
        (clojure.string/join \newline)))
 
