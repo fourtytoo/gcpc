@@ -1,4 +1,4 @@
-(defproject gcpc "0.1.0-SNAPSHOT"
+(defproject gcpc "0.1.1-SNAPSHOT"
   :description "Google Cloud Print Connector"
   :url "http://github.com/fourtytoo/gcpc"
   :license {:name "Eclipse Public License"
@@ -16,8 +16,8 @@
                  [org.clojure/data.xml "0.0.8"]
                  [org.clojure/data.zip "0.1.2"]
                  [org.clojure/data.codec "0.1.0"]
-                 [org.clojure/tools.logging "0.3.1"]
-                 [ch.qos.logback/logback-classic "1.1.3"]
+                 #_[org.clojure/tools.logging "0.3.1"]
+                 [onelog "0.5.0"]
                  [org.clojure/core.async "0.2.374"]
                  [org.clojure/tools.cli "0.3.5"]]
   :resource-paths ["resources/cups4j-0.6.4.jar"]

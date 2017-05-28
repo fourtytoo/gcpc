@@ -3,7 +3,8 @@
             [clj-time.core :as time]
             [gcpc.conf :as cfg]
             [gcpc.util :as util]
-            [clojure.tools.logging :as log]
+            #_[clojure.tools.logging :as log]
+            [onelog.core :as log]
             [cheshire.core :as json]))
 
 (def client-id "the client-id you got from the Google API Console")

@@ -4,11 +4,13 @@
             [clojure.java.io :as io]
             [clojure.data.codec.base64 :as b64]
             [clj-time.core :as time]
-            [clojure.tools.logging :as log]
+            #_[clojure.tools.logging :as log]
+            [onelog.core :as log]
             [clojure.core.async :as async]
             [clojure.data.zip.xml]
             [clojure.xml]
-            [clojure.data.xml :as dxml]))
+            [clojure.data.xml :as dxml])
+  #_(:import (java.net Socket)))
 
 (def ^:dynamic *xmpp-server* "talk.google.com")
 (def ^:dynamic *xmpp-port* 5223)

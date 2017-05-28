@@ -5,6 +5,7 @@
             [gcpc.server :as srv]
             [clojure.tools.cli :refer [parse-opts]]
             [clojure.pprint :refer [pprint]]
+            [onelog.core :as log]
             [gcpc.cups :as cups]
             [gcpc.util :as util]))
 
@@ -138,6 +139,7 @@ configure/delete local CUPS printers check the cups(1) manual page. "]
   (System/exit status))
 
 (defn -main [& args]
+  (log/start! "log/gcpc.log" :info)
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
     ;; Handle help and error conditions
     (cond

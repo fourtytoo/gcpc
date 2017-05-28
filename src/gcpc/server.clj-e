@@ -3,7 +3,8 @@
             [gcpc.gcp :as gcp]
             [gcpc.conf :as cfg]
             [gcpc.xmpp :as xmpp]
-            [clojure.tools.logging :as log]
+            #_[clojure.tools.logging :as log]
+            [onelog.core :as log]
             [gcpc.util :as util]))
 
 (defn print-job [job]

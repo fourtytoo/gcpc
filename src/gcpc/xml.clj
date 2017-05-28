@@ -1,7 +1,8 @@
 (ns gcpc.xml
   (:require [clojure.java.io :as io]
             [clojure.data.xml :as dxml]
-            [clojure.tools.logging :as log])
+            #_[clojure.tools.logging :as log]
+            [onelog.core :as log])
   (:import (javax.xml.stream XMLInputFactory
                              XMLStreamReader
                              XMLStreamConstants)))

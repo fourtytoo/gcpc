@@ -1,6 +1,7 @@
 (ns gcpc.http
   (:require [cheshire.core :as json]
-            [clojure.tools.logging :as log]
+            #_[clojure.tools.logging :as log]
+            [onelog.core :as log]
             [org.httpkit.client :as http]
             [gcpc.conf :as cfg]))
 
