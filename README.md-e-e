@@ -37,7 +37,7 @@ Then you should be able to compile as usual:
 
 The jar file can be run:
 
-    $ java -jar gcpc-0.1.0-standalone.jar
+    $ java -jar ./target/uberjar/gcpc-<VERSION>-standalone.jar
 
 you should get a usage explanation.
 
@@ -46,7 +46,7 @@ cloud.
 
 ### Adding a printer
 
-    $ java -jar gcpc-0.1.0-standalone.jar add <printer>
+    $ java -jar ./target/uberjar/gcpc-<VERSION>-standalone.jar add <printer>
 
 `<printer>` is the name of the printer on the local host.  If the
 printer is on another CUPS host, you can use the form `printer@host`,
@@ -64,18 +64,21 @@ identify yourself with your personal Google account and password.
 Obviously these credentials are not saved on your hard disk; just the
 robot refresh token is saved in the `.gcpc` file (see above).
 
-## Options
+### Adding a printer
 
-FIXME: listing of options this app accepts.
+Assuming you have added at least a printer (see above).  Print
+requests are served by the GCP server:
 
-## Examples
-
-...
+    $ java -jar ./target/uberjar/gcpc-<VERSION>-standalone.jar serve
+	
+This will make gcpc enter server mode in which it receives print
+requests from GCP and forward them to CUPS.  To exit just hit Ctrl-C.
+The output log is saved in `log/gcpc.log`.
 
 ## Bugs
 
-GCPC is still in its early development stages.  Bugs are to be
-expected aplenty, and most mistakes on your side will be met with an
+GCPC is quite usable but still in development.  Bugs are to be
+expected, and most mistakes on your side will be met with an
 unintelligible stacktrace.  Have fun hacking Clojure code!
 
 
