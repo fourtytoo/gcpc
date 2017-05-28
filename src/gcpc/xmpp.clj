@@ -132,7 +132,10 @@
         (throw (ex-info "missing :bind in features" stanza))))
     (->> (bind-resource in out)
          (subscribe-to-notifications in out))
-    [in socket]))
+    {:chan in :socket socket}))
+
+(defn close [connection]
+  (.close (:socket connection)))
 
 (defn- push-notification-from-stanza [stanza]
   (-> stanza

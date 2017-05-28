@@ -20,8 +20,8 @@
         (gcp/job-completed job)
         (gcp/job-failed job)))))
 
-(defn process-print-job-notifications [in]
-  (doseq [printer-id (xmpp/notification-seq in)]
+(defn process-print-job-notifications [connection]
+  (doseq [printer-id (xmpp/notification-seq connection)]
     (log/debug "jobs on printer" printer-id)
     (run! print-job (gcp/list-jobs printer-id))))
 
@@ -29,15 +29,18 @@
   (run! print-job (gcp/list-all-jobs)))
 
 (defn serve-print-jobs []
+  (log/info "Starting server loop")
   (loop []
     (print-all-jobs)
-    (let [[input-channel socket] (xmpp/connect (:xmpp-jid (cfg/configuration-parms)) (gcp/access-token))]
+    (let [connection (xmpp/connect (:xmpp-jid (cfg/configuration-parms)) (gcp/access-token))]
       (try
-        (process-print-job-notifications input-channel)
+        (process-print-job-notifications connection)
         (catch javax.xml.stream.XMLStreamException e
-          (log/warn "XML error" e "while serving job notifications"))
+          (xmpp/close connection)
+          (log/warn "XML error " e " while serving job notifications"))
         (catch java.lang.Exception e
-          (log/warn "caught exception" e "while serving job notifications"))))
+          (xmpp/close connection)
+          (log/warn "caught exception " e " while serving job notifications"))))
     (util/sleep 3)
     (recur)))
 
