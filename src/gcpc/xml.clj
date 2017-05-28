@@ -11,9 +11,10 @@
   (dxml/seq-tree
    (fn [^clojure.data.xml.Event event contents]
      (when (= :start-element (.type event))
-       (log/debug event)
        (clojure.data.xml.Element. (.name event) (.attrs event) contents)))
    (fn [^clojure.data.xml.Event event]
+     (when-not (= :characters (.type event))
+       (log/debug (.type event) " " (.name event)))
      (= :end-element (.type event)))
    (fn [^clojure.data.xml.Event event]
      (.str event))
