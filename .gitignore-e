@@ -1,6 +1,8 @@
 /target
 /classes
 /checkouts
+/attic
+/log
 pom.xml
 pom.xml.asc
 *.jar
