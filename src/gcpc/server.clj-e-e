@@ -40,3 +40,22 @@
           (log/warn "caught exception" e "while serving job notifications"))))
     (util/sleep 3)
     (recur)))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+(defonce server (atom nil))
+
+(defn debug-server [& [conf-file]]
+  (log/start! "log/gcpc.debug" :debug)
+  (swap! server
+         (fn [thread]
+           (when thread
+             (future-cancel thread))
+           (future
+             (binding [cfg/*configuration-file* (or conf-file cfg/*configuration-file*)]
+               (serve-print-jobs))))))
+
+#_(debug-server)

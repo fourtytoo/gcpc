@@ -162,7 +162,3 @@ configure/delete local CUPS printers check the cups(1) manual page. "]
         (exit 3 (str "Unknown action " (first arguments) "\n"
                      (usage summary)))))))
 
-#_(binding [cfg/*configuration-file* "/home/wcp/fatcat/.gcpc"]
-    (srv/serve-print-jobs))
-
-#_(srv/serve-print-jobs)
