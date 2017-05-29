@@ -28,6 +28,10 @@
 (defn print-all-jobs []
   (run! print-job (gcp/list-all-jobs)))
 
+(def ^:dynamic *reconnect-delay*
+  "How long, in seconds, to wait before trying and reconnect to the GCP service."
+  3)
+
 (defn serve-print-jobs []
   (log/info "Starting server loop")
   (loop []
@@ -41,7 +45,7 @@
         (catch java.lang.Exception e
           (xmpp/close connection)
           (log/warn "caught exception " e " while serving job notifications"))))
-    (util/sleep 3)
+    (util/sleep *reconnect-delay*)
     (recur)))
 
 
