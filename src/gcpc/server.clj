@@ -41,10 +41,10 @@
         (process-print-job-notifications connection)
         (catch javax.xml.stream.XMLStreamException e
           (xmpp/close connection)
-          (log/warn "XML error " e " while serving job notifications"))
+          (log/warn "XML error " e))
         (catch java.lang.Exception e
           (xmpp/close connection)
-          (log/warn "caught exception " e " while serving job notifications"))))
+          (log/warn "Caught exception " e))))
     (util/sleep *reconnect-delay*)
     (recur)))
 
