@@ -6,7 +6,9 @@
             [gcpc.conf :as cfg]))
 
 (defn http-success? [http-reply]
-  (<= 200 (:status http-reply) 299))
+  (let [status (:status http-reply)]
+    (and status
+         (<= 200 status 299))))
 
 (defn http-get [& args]
   (deref (apply http/get args)))
