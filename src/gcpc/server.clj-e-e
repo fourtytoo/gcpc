@@ -33,20 +33,21 @@
   3)
 
 (defn serve-print-jobs []
-  (log/info "Starting server loop")
-  (loop []
-    (print-all-jobs)
-    (let [connection (xmpp/connect (:xmpp-jid (cfg/configuration-parms)) (gcp/access-token))]
+  (log/info+ "Starting server loop")
+  (let [connect (fn []
+                  (xmpp/connect (:xmpp-jid (cfg/configuration-parms))
+                                (gcp/access-token)))]
+    (loop [connection (connect)]
       (try
+        (print-all-jobs)
         (process-print-job-notifications connection)
         (catch javax.xml.stream.XMLStreamException e
           (xmpp/close connection)
-          (log/warn "XML error " e))
+          (log/error "XML error " e))
         (catch java.lang.Exception e
           (xmpp/close connection)
-          (log/warn "Caught exception " e))))
-    (util/sleep *reconnect-delay*)
-    (recur)))
+          (log/error "Caught exception " e)))
+      (util/sleep *reconnect-delay*))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
