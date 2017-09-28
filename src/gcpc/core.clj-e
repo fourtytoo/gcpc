@@ -139,8 +139,11 @@ configure/delete local CUPS printers check the cups(1) manual page. "]
   (System/exit status))
 
 (defn -main [& args]
-  (log/start! "log/gcpc.log" :info)
-  (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
+  (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)
+        log-level (case (:verbosity options)
+                    0 :info
+                    1 :debug
+                    :trace)]
     ;; Handle help and error conditions
     (cond
       (:help options) (exit 0 (usage summary))
@@ -148,6 +151,7 @@ configure/delete local CUPS printers check the cups(1) manual page. "]
                                            (usage summary)))
       errors (exit 2 (str "Command line parsing error\n"
                           (error-msg errors))))
+    (log/start! "log/gcpc.log" log-level)
     ;; Execute program with options
     (binding [cfg/*configuration-file* (:config options)]
       (case (first arguments)
@@ -161,4 +165,3 @@ configure/delete local CUPS printers check the cups(1) manual page. "]
         ("jobs" "list-jobs") (list-jobs)
         (exit 3 (str "Unknown action " (first arguments) "\n"
                      (usage summary)))))))
-
