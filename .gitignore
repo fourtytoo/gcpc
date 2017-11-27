@@ -13,3 +13,4 @@ pom.xml.asc
 .hg/
 *~
 /resources/dot.gcpc
+/TODO.org
