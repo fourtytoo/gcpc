@@ -48,9 +48,13 @@
       (String. "UTF-8")))
 
 (defn socket-reader [socket c]
-  (async/go
-    (doseq [e (first (xml/socket-xml-element-seq socket #(= :stream (.name %))))]
-      (async/>! c e))))
+  (try
+    (async/go
+      (doseq [e (first (xml/socket-xml-element-seq socket #(= :stream (.name %))))]
+        (async/>! c e)))
+    (catch Error e)
+    (finally
+      (async/close! c))))
 
 (def ^:dynamic *read-timeout*
   "Timeout in milliseconds while reading a stanza."
