@@ -7,9 +7,6 @@
             [onelog.core :as log]
             [cheshire.core :as json]))
 
-(def client-id "the client-id you got from the Google API Console")
-(def client-secret "the client-secret you got from the Google API Console")
-
 (def oauth-url "https://accounts.google.com/o/oauth2/token")
 
 (defn print-cloud-url
@@ -25,8 +22,8 @@
   (str "gcpc@" (util/hostname)))
 
 (defn fetch-access-token [refresh-token]
-  (let [parms {:client_id client-id
-               :client_secret client-secret
+  (let [parms {:client_id ((cfg/configuration-parms) :client-id)
+               :client_secret ((cfg/configuration-parms) :client-secret)
                :grant_type "refresh_token"
                :refresh_token refresh-token}]
     (-> (http/http-post oauth-url {:form-params parms})
@@ -97,8 +94,8 @@
 
 (defn fetch-refresh-token [authorization-code]
   (let [parms {:redirect_uri "oob"
-               :client_id client-id
-               :client_secret client-secret
+               :client_id ((cfg/configuration-parms) :client-id)
+               :client_secret ((cfg/configuration-parms) :client-secret)
                :grant_type "authorization_code"
                :code authorization-code}]
     (-> (gcp-req* http/http-post oauth-url {:form-params parms})
@@ -118,7 +115,8 @@
     (let [timeout (-> registration
                       :token-duration
                       bigint int)
-          conf-url (str (:polling-url registration) client-id)
+          conf-url (str (:polling-url registration)
+                        ((cfg/configuration-parms) :client-id))
           confirmation (do (println "Please visit"
                                     (:complete-invite-url registration)
                                     "to claim printer"
