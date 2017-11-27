@@ -47,7 +47,8 @@
         (catch java.lang.Exception e
           (xmpp/close connection)
           (log/error "Caught exception " e)))
-      (util/sleep *reconnect-delay*))))
+      (util/sleep *reconnect-delay*)
+      (recur (connect)))))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
