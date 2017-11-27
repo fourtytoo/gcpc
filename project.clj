@@ -18,6 +18,7 @@
                  [org.clojure/data.codec "0.1.0"]
                  #_[org.clojure/tools.logging "0.3.1"]
                  [onelog "0.5.0"]
+                 [cprop "0.1.11"]
                  [org.clojure/core.async "0.2.374"]
                  [org.clojure/tools.cli "0.3.5"]]
   :resource-paths ["resources/cups4j-0.6.4.jar"]
